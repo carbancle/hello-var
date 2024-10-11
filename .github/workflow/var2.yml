@@ -1,0 +1,26 @@
+name: "변수로 계산기 만들기 2"
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issue: write
+
+jobs:
+  issue-calculate:
+    runs-on: ubuntu-latest
+    env:
+      NUMBER1: ${{ vars.NUMBER1 }}
+      NUMBER2: ${{ vars.NUMBER2 }}
+    steps:
+      - name: Calculate
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '계산기 2',
+              body: '$NUMBER1 + $NUMBER2 = $((NUMBER1 + NUMBER2))'
+            })
