@@ -5,7 +5,7 @@ on:
 
 permissions:
   contents: write
-  issue: write
+  issues: write
 
 jobs:
   issue-calculate:
@@ -18,9 +18,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const number1 = parseInt(process.env.NUMBER1);
+            const number2 = parseInt(process.env.NUMBER2);
+            const result = number1 + number2;
+
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: '계산기 2',
-              body: '$NUMBER1 + $NUMBER2 = $((NUMBER1 + NUMBER2))'
+              body: `${number1} + ${number2} = ${result}`
             })
